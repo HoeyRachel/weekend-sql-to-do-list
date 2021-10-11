@@ -15,7 +15,9 @@ function completeTask(){
         url: '/tasks?id=' + $( this ).data( 'id' ),
     }).then( function( response ){
         console.log( 'back from update:', response );
+        colorChanger();
         taskReader();
+        
     }).catch( function( err ){
         console.log( err );
         alert( 'completion error' );
@@ -80,4 +82,8 @@ function deleteTask(){
         console.log( err );
         alert( 'error deleting task' );
     })
+}
+
+function colorChanger(){
+    $(this).parent().css('background-color', 'blue');
 }

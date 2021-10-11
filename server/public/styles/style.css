@@ -1,4 +1,14 @@
 body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: cursive;
     background-color: lavenderblush;
+}
+
+.blue {
+    background-color: midnightblue;
+}
+
+div {font-family: cursive;
+    font-size: large;
+    background-color: purple;
+
 }
