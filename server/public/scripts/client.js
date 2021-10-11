@@ -4,21 +4,21 @@ function onReady(){
     console.log ('in onReady');
     $('#addTaskButton').on('click', taskAdder);
     $( '#tasksOut' ).on( 'click', '.deleteTaskButton', deleteTask );
-    $( '#tasksOut' ).on( 'click', '.flagTaskButton', flagTask );
+    $( '#tasksOut' ).on( 'click', '.completeTaskButton', completeTask );
     taskReader();
 }
 
-function flagTask(){
-    console.log( 'in flagTask:', $( this ).data( 'id' ) );
+function completeTask(){
+    console.log( 'in completeTask:', $( this ).data( 'id' ) );
     $.ajax({
         method: 'PUT',
         url: '/tasks?id=' + $( this ).data( 'id' ),
     }).then( function( response ){
         console.log( 'back from update:', response );
-        getMessages();
+        taskReader();
     }).catch( function( err ){
         console.log( err );
-        alert( 'error flagging task' );
+        alert( 'completion error' );
     })
 }
 
@@ -34,12 +34,11 @@ function taskReader(){
         el.empty();
         for (let i=0; i<response.length; i++) {
             let appendString = `<li> ${response[i].name} 
-                            ${response[i].task}
-                             ${response[i].complete}`
-                             if( !response[i].flagged ){
-                                appendString += ` <button class="flagTaskButton" data-id="${ response[i].id }">flag</button>`;
+                            ${response[i].task}`
+                             if( !response[i].complete ){
+                                appendString += ` <button class="completeTaskButton" data-id="${ response[i].id }">Complete</button>`;
                             }
-                            appendString += `<button class="deleteTaskButton" data-id="${ response[i].id }">delete</button>
+                            appendString += `<button class="deleteTaskButton" data-id="${ response[i].id }">Delete</button>
                             </li>`;
                             el.append( appendString );
         }
@@ -55,8 +54,6 @@ function taskAdder(){
     let taskToSend = {
         name: $('#nameIn'). val(),
         task: $('#taskIn'). val(),
-        complete: $('#completeIn'). val(),
-        
     }
     $.ajax({
         method: 'POST',
@@ -78,7 +75,7 @@ function deleteTask(){
         url: '/tasks?id=' + $( this ).data( 'id' ),
     }).then( function( response ){
         console.log( 'back from delete:', response );
-        getMessages();
+        taskReader();
     }).catch( function( err ){
         console.log( err );
         alert( 'error deleting task' );

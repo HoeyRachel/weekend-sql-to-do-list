@@ -31,12 +31,32 @@ app.get ('/tasks', (req,res)=>{
 
   app.post ('/tasks', (req,res)=>{
       console.log ('/list POST:', req.body);
-    let queryString = `INSERT INTO list (name, task, complete) VALUES ($1, $2, $3)`;
-    let values = [req.body.name, req.body.task, req.body.complete];
+    let queryString = `INSERT INTO list (name, task ) VALUES ($1, $2)`;
+    let values = [req.body.name, req.body.task];
     pool.query(queryString, values).then ((results)=>{
         res.sendStatus(201);
       }).catch((err)=>{
         console.log(err);
         res.sendStatus(500);
       })
+})
+app.delete( '/tasks', (req, res )=>{    
+  let queryString = `DELETE FROM "list" where id=${ req.query.id };`
+  pool.query( queryString ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( (err)=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
+})
+
+app.put( '/tasks', (req, res)=>{
+  console.log( '/tasks PUT:', req.query );
+  let queryString = `UPDATE "list" SET complete=true WHERE id=${ req.query.id };`
+  pool.query( queryString ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( (err)=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
 })
