@@ -41,7 +41,7 @@ function taskReader(){
             appendString += `${response[i].name}  ${response[i].task}`;
                              if( !response[i].complete ){
                                 appendString += ` <button class="completeTaskButton" data-id="${ response[i].id }">Complete</button>`
-                                
+                               
                             }
                             appendString += `<button class="deleteTaskButton" data-id="${ response[i].id }">Delete</button>`
                             if( response[i].complete ){
