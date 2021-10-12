@@ -5,6 +5,8 @@ body {
 
 .blue {
     background-color: midnightblue;
+    color: mistyrose;
+    text-decoration: line-through;
 }
 p {
     background-color: midnightblue;
