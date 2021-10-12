@@ -6,9 +6,12 @@ body {
 .blue {
     background-color: midnightblue;
 }
+p {
+    background-color: midnightblue;
+    color: mistyrose;
+}
 
-div {font-family: cursive;
+Div {font-family: cursive;
     font-size: large;
-    background-color: purple;
 
 }

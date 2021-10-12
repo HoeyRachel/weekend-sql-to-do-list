@@ -10,14 +10,13 @@ function onReady(){
 
 function completeTask(){
     console.log( 'in completeTask:', $( this ).data( 'id' ) );
+    
     $.ajax({
         method: 'PUT',
         url: '/tasks?id=' + $( this ).data( 'id' ),
     }).then( function( response ){
         console.log( 'back from update:', response );
-        colorChanger();
         taskReader();
-        
     }).catch( function( err ){
         console.log( err );
         alert( 'completion error' );
@@ -32,16 +31,23 @@ function taskReader(){
         url: '/tasks'
     }).then (function(response){
         console.log ('back from server succesfully:', response);
-        let el = $(tasksOut);
+        let el = $('#tasksOut');
         el.empty();
         for (let i=0; i<response.length; i++) {
-            let appendString = `<li> ${response[i].name} 
-                            ${response[i].task}`
+            let appendString = '<li>';
+            if ( response[i].complete){
+                appendString += `<add class="blue">`
+            } 
+            appendString += `${response[i].name}  ${response[i].task}`;
                              if( !response[i].complete ){
-                                appendString += ` <button class="completeTaskButton" data-id="${ response[i].id }">Complete</button>`;
+                                appendString += ` <button class="completeTaskButton" data-id="${ response[i].id }">Complete</button>`
+                                
                             }
-                            appendString += `<button class="deleteTaskButton" data-id="${ response[i].id }">Delete</button>
-                            </li>`;
+                            appendString += `<button class="deleteTaskButton" data-id="${ response[i].id }">Delete</button>`
+                            if( response[i].complete ){
+                                appendString += ``;
+                            }
+                            appendString += `</li>`;
                             el.append( appendString );
         }
     }).catch( function( err ){
